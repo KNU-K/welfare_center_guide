@@ -1,11 +1,20 @@
-const naver_login = async (req, res, next) => {
-  try {
-  } catch (err) {
-    next(err);
-  }
-};
+const passport = require("passport");
+
+passport.serializeUser((user, done) => {
+  console.log("serialize User", user);
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  console.log("deserialize User");
+  done(null, user);
+});
+
+const naver_login = passport.authenticate("naver");
+
 const naver_login_callback = async (req, res, next) => {
   try {
+    res.send("hi");
   } catch (err) {
     next(err);
   }
