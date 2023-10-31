@@ -1,5 +1,10 @@
+const { connection } = require("../config/db_conn");
+const { seniorFacilitiesService } = require("../config/service.config");
+
 const find_all_facilities = async (req, res, next) => {
   try {
+    const result = seniorFacilitiesService.findAll();
+    res.send(result);
   } catch (err) {
     next(err);
   }
