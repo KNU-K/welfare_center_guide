@@ -4,6 +4,24 @@ const errorMiddleware = require("./middlewares/error.middleware");
 const { connection } = require("./config/db_conn");
 const app = express();
 const port = process.env.SERVER_PORT || 8080;
+const cors = require("cors");
+const session = require("express-session");
+app.use(
+  cors({
+    sameSite: "none",
+    origin: true,
+    credentials: true,
+  })
+);
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
