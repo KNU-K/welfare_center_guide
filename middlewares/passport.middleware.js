@@ -1,21 +1,36 @@
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { Naver } = require("../config/dotenv.config");
+const { userService } = require("../config/service_init.config");
+
 const NaverStrategy = require("passport-naver").Strategy;
-const KakaoStrategy = require("passport-kakao").Strategy;
-const dotenv = require("dotenv").config();
 //원래는 바로 done 하는게 아니라 db 내에 저장해준다. 서비스에 대한 가입
 module.exports = {
   naver: new NaverStrategy(
     {
-      clientID: process.env.NaverClientID,
-      clientSecret: process.env.NaverClientSecret,
-      callbackURL: "http://43.201.112.233:8000/api/auth/naver-login/callback",
+      clientID: Naver.NaverClientID,
+      clientSecret: Naver.NaverClientSecret,
+      callbackURL: "http://localhost:8080/api/auth/naver-login/callback",
     },
-    (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      return done(null, {
-        email: profile._json.email,
-        nick: profile._json.email,
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      // 추가 필요
+      //존재하나?
+      //존재하면 --> 로그인
+      //존재안하면 등록 후 로그인
+      const user = await userService.existUser(profile._json.email);
+      if (user) return done(null, user);
+      if (
+        await userService.registerUser({
+          u_name: profile.displayName,
+          u_email: profile._json.email,
+          u_provider: profile.provider,
+          u_provider_id: profile.id,
+        })
+      )
+        return done(null, {
+          u_name: profile.displayName,
+          u_email: profile._json.email,
+          u_provider: profile.provider,
+          u_provider_id: profile.id,
+        });
     }
   ),
 };

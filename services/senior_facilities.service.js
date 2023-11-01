@@ -1,4 +1,4 @@
-const { connection } = require("../config/db_conn");
+const { connection } = require("../config/db_conn.config");
 
 let facilities = [];
 let init_sql = "select * from senior_facility";
@@ -13,6 +13,8 @@ class SeniorFacilitiesService {
   findAll() {
     return facilities;
   }
+
+  //반경범위 return
 }
 
 module.exports = SeniorFacilitiesService;

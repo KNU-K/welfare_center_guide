@@ -1,5 +1,4 @@
-const { connection } = require("../config/db_conn");
-const { seniorFacilitiesService } = require("../config/service.config");
+const { seniorFacilitiesService } = require("../config/service_init.config");
 
 const find_all_facilities = async (req, res, next) => {
   try {
