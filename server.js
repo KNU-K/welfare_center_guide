@@ -1,11 +1,12 @@
 const express = require("express");
 const apiRouter = require("./api/index");
 const errorMiddleware = require("./middlewares/error.middleware");
-const { connection } = require("./config/db_conn");
+const { connection } = require("./config/db_conn.config");
 const app = express();
 const port = process.env.SERVER_PORT || 8080;
 const cors = require("cors");
 const session = require("express-session");
+const passport = require("passport");
 app.use(
   cors({
     sameSite: "none",
