@@ -1,4 +1,4 @@
-const { CustomError } = require("../utils/error");
+const { CustomError } = require("../helpers/error");
 
 module.exports = (err, req, res, next) => {
   /** simply processing , # BUG this module is need refactoring */
