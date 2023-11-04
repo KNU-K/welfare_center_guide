@@ -1,3 +1,4 @@
+const passport = require("passport");
 const {
   naver_login_callback,
   kakao_login,
@@ -22,9 +23,13 @@ const {
 const router = require("express").Router();
 
 /** authorization sector */
-router.get("/auth/naver-login/callback", naver_login_callback);
+router.get(
+  "/auth/naver-login/callback",
+  passport.authenticate("naver"),
+  naver_login_callback
+);
 router.get("/auth/kakao-login/callback", kakao_login_callback);
-router.post("/auth/naver-login", naver_login);
+router.get("/auth/naver-login", naver_login);
 router.post("/auth/kakao-login", kakao_login);
 router.post("/auth/logout", logout);
 
