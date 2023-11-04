@@ -16,7 +16,10 @@ const naver_login = passport.authenticate("naver");
 
 const naver_login_callback = async (req, res, next) => {
   try {
-    res.send({ msg: "login good" });
+    req.logIn(req.user, (err) => {
+      if (err) throw err;
+      res.send({ msg: "login good" });
+    });
   } catch (err) {
     next(err);
   }
