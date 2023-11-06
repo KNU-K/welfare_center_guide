@@ -7,7 +7,6 @@ const {
   logout,
 } = require("../controllers/auth.controller");
 const {
-  find_all_facilities,
   find_facility,
 } = require("../controllers/senior_facilities.controller");
 const {
@@ -47,9 +46,6 @@ router.post("/user/:id/bookmark", create_bookmark_of_user);
 router.delete("/user/:id/bookmark/:bookmarkId", delete_bookmark_of_user);
 
 /** detail of facility information */
-router.get("/senior-facilities", find_facility);
-
-/** query string 을 통해서 받기 TODO: */
 router.get("/senior-facilities", find_facility);
 
 module.exports = router;
