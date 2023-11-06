@@ -7,16 +7,7 @@ const find_all_facilities = () => {
     throw err;
   }
 };
-const find_facility = async (req, res, next) => {
-  try {
-    const queryString = req.query;
-    console.log(queryString.key());
-    if (!queryString.keys().length) res.send(find_all_facilities());
-    else console.log(queryString);
-  } catch (err) {
-    next(err);
-  }
-};
+
 module.exports = {
-  find_facility: find_facility,
+  find_facility: find_all_facilities,
 };
