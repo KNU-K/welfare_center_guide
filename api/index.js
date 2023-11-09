@@ -5,6 +5,7 @@ const {
   kakao_login_callback,
   naver_login,
   logout,
+  local_login,
 } = require("../controllers/auth.controller");
 const {
   find_facility,
@@ -23,6 +24,7 @@ const guardMiddleware = require("../middlewares/guard.middleware");
 const router = require("express").Router();
 
 /** authorization sector */
+router.post("/auth/local-login", local_login);
 router.get(
   "/auth/naver-login/callback",
   passport.authenticate("naver"),
@@ -32,7 +34,13 @@ router.get("/auth/kakao-login/callback", kakao_login_callback);
 router.get("/auth/naver-login", naver_login);
 router.post("/auth/kakao-login", kakao_login);
 router.post("/auth/logout", logout);
-
+/***
+ * TODO:
+ * login sector should change method that is not using naver callback with local method.
+ * why?
+ * look like double linked structure,so it is difficult to access backend for front user.
+ * for solving this problem, new method is considering..
+ */
 router.get("/test", (req, res) => {
   res.send(req.user);
 });

@@ -1,8 +1,8 @@
 const { seniorFacilitiesService } = require("../config/service_init.config");
-const find_all_facilities = () => {
+const find_all_facilities = (req, res, next) => {
   try {
     const result = seniorFacilitiesService.findAll();
-    return result;
+    res.send(result);
   } catch (err) {
     throw err;
   }
