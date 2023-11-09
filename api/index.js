@@ -7,7 +7,6 @@ const {
   logout,
 } = require("../controllers/auth.controller");
 const {
-  find_all_facilities,
   find_facility,
 } = require("../controllers/senior_facilities.controller");
 const {
@@ -16,9 +15,10 @@ const {
   find_bookmark_of_user,
   find_all_bookmark_of_user,
   create_bookmark_of_user,
-  update_bookmark_of_user,
   delete_bookmark_of_user,
+  delete_user,
 } = require("../controllers/user.controller");
+const guardMiddleware = require("../middlewares/guard.middleware");
 
 const router = require("express").Router();
 
@@ -33,17 +33,19 @@ router.get("/auth/naver-login", naver_login);
 router.post("/auth/kakao-login", kakao_login);
 router.post("/auth/logout", logout);
 
+router.get("/test", (req, res) => {
+  res.send(req.user);
+});
 /** detail of a user */
 router.get("/user", find_all_user);
-router.get("/user/:userId", find_detail_of_user);
-router.get("/user/:userId/bookmark", find_all_bookmark_of_user);
-router.get("/user/:userId/bookmark/:bookmarkId", find_bookmark_of_user);
-router.post("/user/:userId/bookmark", create_bookmark_of_user);
-router.put("/user/:userId/bookmark/:bookmarkId", update_bookmark_of_user);
-router.delete("/user/:userId/bookmark/:bookmarkId", delete_bookmark_of_user);
+router.get("/user/:id", find_detail_of_user);
+router.delete("/user/:id", delete_user);
+router.get("/user/:id/bookmark", find_all_bookmark_of_user);
+router.get("/user/:id/bookmark/:bookmarkId", find_bookmark_of_user);
+router.post("/user/:id/bookmark", create_bookmark_of_user);
+router.delete("/user/:id/bookmark/:bookmarkId", delete_bookmark_of_user);
 
 /** detail of facility information */
-router.get("/senior-facilities", find_all_facilities);
-router.get("/senior-facilities/:facilityId", find_facility);
+router.get("/senior-facilities", find_facility);
 
 module.exports = router;
