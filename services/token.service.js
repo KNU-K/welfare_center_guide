@@ -1,34 +1,40 @@
 const { connection } = require("../config/db_conn.config");
 
 class TokenService {
-  saveRefreshToken(u_id, refreshToken) {
-    connection.query(
-      "INSERT INTO token (u_id,refresh_token) VALUES (?, ?)",
-      [u_id, refreshToken],
-      (err, result) => {
-        if (err) throw err;
-        if (result) {
-          return true;
-        } else {
-          return false;
+  static saveRefreshToken(u_id, refreshToken) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO token (u_id,refresh_token) VALUES (?, ?)",
+        [u_id, refreshToken],
+        (err, result) => {
+          console.log(err);
+          if (err) reject(err);
+          console.log(result);
+          if (result) {
+            resolve(true);
+          } else {
+            reject(false);
+          }
         }
-      }
-    );
+      );
+    });
   }
-  updateRefreshToken(u_id, refreshToken) {
-    // TODO: update Query 작성
-    connection.query(
-      `update token set refresh_token = '${refreshToken}' where u_id = ${u_id}`,
-      [u_id, refreshToken],
-      (err, result) => {
-        if (err) throw err;
-        if (result) {
-          return true;
-        } else {
-          return false;
+  static updateRefreshToken(u_id, refreshToken) {
+    return new Promise((resolve, reject) => {
+      // TODO: update Query 작성
+      connection.query(
+        `update token set refresh_token = '${refreshToken}' where u_id = ${u_id}`,
+        [u_id, refreshToken],
+        (err, result) => {
+          if (err) reject(err);
+          if (result) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         }
-      }
-    );
+      );
+    });
   }
 }
 
