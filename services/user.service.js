@@ -72,15 +72,24 @@ class UserService {
     if (!user) return null;
     return user;
   }
+  async syncUser() {
+    connection.query("select * from user", (err, result) => {
+      if (err) return false;
+      users = result;
+      console.log("sync user .. Succeed");
+      return true;
+    });
+    return false;
+  }
   async registerUser(user) {
     connection.query(
       "INSERT INTO user (u_name, u_email, u_provider, u_provider_id) VALUES (?, ?, ?, ?)",
       [user.u_name, user.u_email, user.u_provider, user.u_provider_id],
-      (err, result) => {
+      async (err, result) => {
         if (err) throw err;
-        users.push({ u_id: users.length + 1, ...user });
         console.log(users);
-        return true;
+        if (await this.syncUser()) return true;
+        else return false;
       }
     );
   }
