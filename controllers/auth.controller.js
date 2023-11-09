@@ -1,8 +1,8 @@
 const passport = require("passport");
-const { naver, local } = require("../middlewares/passport.middleware");
-
+const { naver } = require("../middlewares/passport.middleware");
+const { userService } = require("../config/service_init.config");
+const TokenService = require("../services/token.service");
 passport.use("naver", naver);
-passport.use("local", local);
 passport.serializeUser((user, done) => {
   console.log("serialize User", user);
   done(null, user);
@@ -12,18 +12,38 @@ passport.deserializeUser((user, done) => {
   console.log("deserialize User");
   done(null, user);
 });
-
-//local login
 const local_login = async (req, res, next) => {
-  passport.authenticate("local", async (err, user) => {
-    try {
-      if (err) throw err;
-      res.send({ msg: "login good", u_id: user.u_id }); // this doesn't access throughout session
-      //only access throughout token method
-    } catch (err) {
-      next(err);
+  try {
+    const { refreshToken, u_name, u_email, u_provider, u_provider_id } =
+      req.body;
+
+    //TODO: valid한 refresh token인지 확인해야하는 작업 추가 되어야함.
+
+    const user = await userService.existUser(u_email);
+    //refreshToken 은 항시
+    if (user) {
+      TokenService.updateRefreshToken(user.u_id, refreshToken);
+      return res.send({ msg: "auth succeed", u_id: user.u_id });
     }
-  })(req, res, next);
+    const registerUserResult = await userService.registerUser({
+      u_name: u_name,
+      u_email: u_email,
+      u_provider: u_provider,
+      u_provider_id: u_provider_id,
+    });
+
+    console.log(registerUserResult);
+    if (registerUserResult) {
+      const user = await userService.existUser(u_email);
+      console.log("user=", user);
+
+      await TokenService.saveRefreshToken(user.u_id, refreshToken);
+
+      return res.send({ msg: "auth succeed", u_id: user.u_id });
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**

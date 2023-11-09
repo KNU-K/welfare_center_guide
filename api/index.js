@@ -20,6 +20,7 @@ const {
   delete_user,
 } = require("../controllers/user.controller");
 const guardMiddleware = require("../middlewares/guard.middleware");
+const { local, naver } = require("../middlewares/passport.middleware");
 
 const router = require("express").Router();
 

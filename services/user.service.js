@@ -72,26 +72,31 @@ class UserService {
     if (!user) return null;
     return user;
   }
-  async syncUser() {
-    connection.query("select * from user", (err, result) => {
-      if (err) return false;
-      users = result;
-      console.log("sync user .. Succeed");
-      return true;
+  syncUser() {
+    return new Promise((resolve, reject) => {
+      connection.query("select * from user", (err, result) => {
+        if (err) reject(err);
+        users = result;
+        console.log("sync user .. Succeed");
+        resolve(true);
+      });
     });
-    return false;
   }
-  async registerUser(user) {
-    connection.query(
-      "INSERT INTO user (u_name, u_email, u_provider, u_provider_id) VALUES (?, ?, ?, ?)",
-      [user.u_name, user.u_email, user.u_provider, user.u_provider_id],
-      async (err, result) => {
-        if (err) throw err;
-        console.log(users);
-        if (await this.syncUser()) return true;
-        else return false;
-      }
-    );
+  registerUser(user) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "INSERT INTO user(u_name, u_email, u_provider, u_provider_id) VALUES (?, ?, ?, ?)",
+        [user.u_name, user.u_email, user.u_provider, user.u_provider_id],
+        async (err, result) => {
+          if (err) reject(err);
+          if (await this.syncUser()) {
+            resolve(true);
+          } else {
+            resolve(true);
+          }
+        }
+      );
+    });
   }
 }
 
