@@ -25,12 +25,13 @@ module.exports = {
           u_provider_id: profile.id,
         })
       )
-        return done(null, {
-          u_name: profile.displayName,
-          u_email: profile._json.email,
-          u_provider: profile.provider,
-          u_provider_id: profile.id,
-        });
+        console.log("a");
+      return done(null, {
+        u_name: profile.displayName,
+        u_email: profile._json.email,
+        u_provider: profile.provider,
+        u_provider_id: profile.id,
+      });
     }
   ),
 };
