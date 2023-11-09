@@ -1,7 +1,8 @@
 const passport = require("passport");
-const { naver } = require("../middlewares/passport.middleware");
+const { naver, local } = require("../middlewares/passport.middleware");
 
 passport.use("naver", naver);
+passport.use("local", local);
 passport.serializeUser((user, done) => {
   console.log("serialize User", user);
   done(null, user);
@@ -12,8 +13,25 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-const naver_login = passport.authenticate("naver");
+//local login
+const local_login = async (req, res, next) => {
+  passport.authenticate("local", async (err, user) => {
+    try {
+      if (err) throw err;
+      res.send({ msg: "login good", u_id: user.u_id }); // this doesn't access throughout session
+      //only access throughout token method
+    } catch (err) {
+      next(err);
+    }
+  })(req, res, next);
+};
 
+/**
+ * this sector is login method for FE development
+ * that isn't work yet
+ *
+ */
+const naver_login = passport.authenticate("naver");
 const naver_login_callback = async (req, res, next) => {
   try {
     req.logIn(req.user, (err) => {
@@ -47,6 +65,7 @@ const logout = async (req, res, next) => {
   }
 };
 module.exports = {
+  local_login: local_login,
   naver_login: naver_login,
   naver_login_callback: naver_login_callback,
   kakao_login: kakao_login,
