@@ -8,6 +8,18 @@ class UserService {
       users = result;
     });
   }
+  deleteBookmarkByIdAndFacilityId(id, facilityId) {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `delete from bookmark where u_id=${id} and sf_id=${facilityId}`,
+        (err, result) => {
+          if (err) reject(err);
+          if (result.affectedRows) resolve(true);
+          else resolve(false);
+        }
+      );
+    });
+  }
   deleteBookmarkByIdAndBookmarkId(id, bookmarkId) {
     return new Promise((resolve, reject) => {
       connection.query(
