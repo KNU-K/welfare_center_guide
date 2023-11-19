@@ -55,6 +55,7 @@ router.get("/user/:id/bookmark", find_all_bookmark_of_user);
 router.get("/user/:id/bookmark/:bookmarkId", find_bookmark_of_user);
 router.post("/user/:id/bookmark", create_bookmark_of_user);
 router.delete("/user/:id/bookmark/:bookmarkId", delete_bookmark_of_user);
+router.delete("/user/:id/senior-facilities/:facilityId", delete_bookmark_of_user);
 
 /** detail of facility information */
 router.get("/senior-facilities", find_facility);
