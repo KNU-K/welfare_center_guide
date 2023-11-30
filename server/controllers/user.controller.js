@@ -67,17 +67,32 @@ const create_bookmark_of_user = async (req, res, next) => {
 };
 const delete_bookmark_of_user = async (req, res, next) => {
   try {
-    const { id, bookmarkId } = req.params;
-    if (await userService.deleteBookmarkByIdAndBookmarkId(id, bookmarkId)) {
-      res.send({
-        msg: "succeed",
-      });
-    } else {
-      res.send(
+    const { id, bookmarkId, facilityId } = req.params;
+    console.log(req.params);
+    if (bookmarkId) {
+      if (await userService.deleteBookmarkByIdAndBookmarkId(id, bookmarkId)) {
         res.send({
-          msg: "fail",
-        })
-      );
+          msg: "succeed",
+        });
+      } else {
+        res.send(
+          res.send({
+            msg: "fail",
+          })
+        );
+      }
+    } else {
+      if (await userService.deleteBookmarkByIdAndFacilityId(id, facilityId)) {
+        res.send({
+          msg: "succeed",
+        });
+      } else {
+        res.send(
+          res.send({
+            msg: "fail",
+          })
+        );
+      }
     }
   } catch (err) {
     console.log(err);
