@@ -514,6 +514,110 @@ class SubActivity : AppCompatActivity() {
 
 
 
+    //////
+//    // Mission 데이터를 담을 모델 클래스
+//    data class TargetData(val sf_id: Int, val sf_name: String, val sf_tel: String,
+//                          val sf_latitude: Double, val sf_longitude: Double, val sf_addr: String)
+
+    // Retrofit을 사용하여 JSON 데이터를 가져오기 위한 API 인터페이스
+    interface TargetApiService {
+        @GET // 여기에 실제 JSON URL을 넣으세요.
+        fun getTargetData(@Url url: String, @Header("Authorization") token:String?): Call<List<TargetMapData>>
+    }
+
+
+
+    // Retrofit 인스턴스 생성
+    val retrofit = Retrofit.Builder()
+        .baseUrl("http://3.35.218.61:8080/api/senior-facilities/") // 여기에 API의 기본 URL을 넣으세요.
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    // API 서비스 생성
+    val targetApiService = retrofit.create(TargetApiService::class.java)
+    //flag10
+    // JSON 데이터를 가져오는 함수
+    fun fetchMissionData() {
+        val sharedPreferencesToken= getSharedPreferences("token", 0);
+        val sharedPreferencesUser = getSharedPreferences("user", 0);
+        val accessToken:String? = sharedPreferencesToken.getString("accessToken", "")
+        val call = targetApiService.getTargetData("http://3.35.218.61:8080/api/senior-facilities/${sharedPreferencesUser.getInt("u_id",0)}",accessToken)
+        call.enqueue(object : Callback<List<TargetMapData>> {
+            override fun onResponse(call: Call<List<TargetMapData>>, response: Response<List<TargetMapData>>) {
+                if (response.isSuccessful) {
+                    val targetList = response.body() ?: emptyList()
+                    // missionList를 MissionMapData 객체로 변환하여 missionMapData 리스트에 추가
+                    //TargetMapData.clear() // 리스트 초기화
+                    for (targetData in targetList) {
+                        selectedTargetMapData.add(
+                            TargetMapData(
+                                targetData.sf_id,
+                                targetData.sf_name,
+                                targetData.sf_tel,
+                                targetData.sf_latitude,
+                                targetData.sf_longitude,
+                                targetData.sf_addr
+                            )
+                        )
+                    }
+                    // 데이터를 성공적으로 가져왔으므로 지도에 표시하거나 다른 작업 수행
+                    setMissionMark(selectedTargetMapData, "yellow")
+                } else {
+                    Log.e("kim", "error")
+                }
+            }
+
+
+            override fun onFailure(call: Call<List<TargetMapData>>, t: Throwable) {
+                // 네트워크 오류 또는 예외 처리
+                return
+            }
+        })
+    }
+
+    fun fetchNonSelectedMissionData() {
+        val sharedPreferencesToken= getSharedPreferences("token", 0);
+        val sharedPreferencesUser = getSharedPreferences("user", 0);
+        val accessToken:String? = sharedPreferencesToken.getString("accessToken", "")
+        val call = targetApiService.getTargetData("http://3.35.218.61:8080/api/senior-facilities/non-selected/${sharedPreferencesUser.getInt("u_id",0)}",accessToken)
+        call.enqueue(object : Callback<List<TargetMapData>> {
+            override fun onResponse(call: Call<List<TargetMapData>>, response: Response<List<TargetMapData>>) {
+                if (response.isSuccessful) {
+                    val targetList = response.body() ?: emptyList()
+                    // missionList를 MissionMapData 객체로 변환하여 missionMapData 리스트에 추가
+                    //TargetMapData.clear() // 리스트 초기화
+                    for (targetData in targetList) {
+                        nonSelectedTargetMapData.add(
+                            TargetMapData(
+                                targetData.sf_id,
+                                targetData.sf_name,
+                                targetData.sf_tel,
+                                targetData.sf_latitude,
+                                targetData.sf_longitude,
+                                targetData.sf_addr
+                            )
+                        )
+                    }
+                    // 데이터를 성공적으로 가져왔으므로 지도에 표시하거나 다른 작업 수행
+                    setMissionMark(nonSelectedTargetMapData,"blue")
+                } else {
+                    Log.e("kim", "error")
+                }
+            }
+
+
+            override fun onFailure(call: Call<List<TargetMapData>>, t: Throwable) {
+                // 네트워크 오류 또는 예외 처리
+                return
+            }
+        })
+    }
+
+
+
+
+
+
 
 
 
