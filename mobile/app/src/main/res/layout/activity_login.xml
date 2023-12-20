@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="당근복지"
+        android:layout_gravity="center"
+        android:layout_marginTop="180dp"
+        android:textColor="#F1B212"
+        android:textSize="80sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="건강한 노인 네트워크 \n  형성을 위한 한걸음"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="#775B13"
+        android:textSize="20sp" />
+
+    <Space
+        android:layout_width="1px"
+        android:layout_height="170dp"/>
+
+    <!-- btnLogin -->
+    <ImageView
+        android:id="@+id/btnLogin"
+        android:layout_width="205dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:src="@drawable/naverloginbtn" />
+
+    <Button
+        android:id="@+id/backmain"
+        android:layout_width="205dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#F1B212"
+        android:text="메인화면 돌아가기"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+
+
+<!--    <ImageView-->
+<!--        android:id="@+id/btnLogout"-->
+<!--        android:layout_width="205dp"-->
+<!--        android:layout_height="55dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:src="@drawable/naverlogoutbtn" />-->
+
+
+</LinearLayout>
