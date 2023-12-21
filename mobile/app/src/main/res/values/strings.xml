@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">mobile</string>
+    <string name="app_name">carrot</string>
+
+    //네이버 로그인
+    <string name="social_login_info_naver_client_id">gjLxgRUn0ZnqHGVfxB8A</string>
+    <string name="social_login_info_naver_client_secret">_Da09vtBin</string>
+    <string name="social_login_info_naver_client_name">네이버아이디 로그인</string>
+    <string name="on_bookmark">상세기능을 위해 클릭하시오</string>
+
 </resources>

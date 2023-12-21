@@ -1,4 +1,4 @@
-package com.kim.mobile
+package com.kim.carrot
 
 import org.junit.Test
 
