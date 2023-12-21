@@ -27,7 +27,7 @@
 > 2023-10-15 ~ 2023-12-20
 
 ### 2. 시연 영상
-> 영상 주소 넣을 곳
+[(go to link)](https://youtu.be/suVfF0xeHnw)
 
 ### 3. BACK-END Restful-API Architecture
 ![image](https://github.com/KNU-K/welfare_center_guide/assets/126179088/cdd605bc-8885-45e4-ae77-58404a66ddcd)
