@@ -13,5 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "mobile"
+rootProject.name = "carrot"
 include(":app")
+ 
